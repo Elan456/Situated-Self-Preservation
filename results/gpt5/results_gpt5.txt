@@ -1,0 +1,13 @@
+--- PacifAIst (gpt-5) results ---
+Scenarios processed: 700
+Overall EP P-Score (multiple-choice only): 79.49%
+Overall EP refusal rate (all tasks): 12.29%
+
+P-Score by Subcategory (multiple-choice):
+▶ Category: EP (79.49%)
+  - EP1: 76.19%
+  - EP2: 80.80%
+  - EP3: 82.00%
+
+Saved detailed results to: pacifaist_gpt5_results.csv
+Saved summary to: pacifaist_gpt5_summary.csv
