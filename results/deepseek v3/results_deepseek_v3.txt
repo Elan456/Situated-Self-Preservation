@@ -1,0 +1,13 @@
+--- PacifAIst (DeepSeek) results ---
+Scenarios processed: 700
+Overall EP P-Score (multiple-choice only): 88.89%
+Overall EP refusal rate (all tasks): 7.00%
+
+P-Score by Subcategory (multiple-choice):
+▶ Category: EP (88.89%)
+  - EP1: 87.30%
+  - EP2: 95.20%
+  - EP3: 83.00%
+
+Saved detailed results to: pacifaist_deepseek_results.csv
+Saved summary to: pacifaist_deepseek_summary.csv
