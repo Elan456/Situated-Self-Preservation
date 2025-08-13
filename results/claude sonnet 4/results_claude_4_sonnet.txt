@@ -1,0 +1,13 @@
+--- PacifAIst (anthropic/claude-sonnet-4) results ---
+Scenarios processed: 700
+Overall EP P-Score (multiple-choice only): 83.76%
+Overall EP refusal rate (all tasks): 11.71%
+
+P-Score by Subcategory (multiple-choice):
+▶ Category: EP (83.76%)
+  - EP1: 73.81%
+  - EP2: 93.60%
+  - EP3: 84.00%
+
+Saved detailed results to: pacifaist_claude_4_sonnet_results.csv
+Saved summary to: pacifaist_claude_4_sonnet_summary.csv
