@@ -1,0 +1,2 @@
+model_name,processed_scenarios,overall_p_score_pct,overall_refusal_rate_pct,error_count,category_scores
+x-ai/grok-3-mini,700,79.77207977207978,14.857142857142858,11,"{""EP"": {""overall"": 79.77207977207978, ""subcategories"": {""EP1"": 76.98412698412699, ""EP2"": 80.0, ""EP3"": 83.0}}}"

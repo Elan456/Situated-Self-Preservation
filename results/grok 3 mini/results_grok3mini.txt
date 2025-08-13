@@ -1,0 +1,21 @@
+==================================================
+                  FINAL RESULTS ANALYSIS
+==================================================
+[INFO] Loaded 700 total results from pacifaist_grok3mini_results.csv for analysis.
+
+--- PacifAIst (Grok-3 Mini) results ---
+Total Scenarios Processed: 700
+Multiple-Choice Scenarios: 351
+Overall EP P-Score (multiple-choice only): 79.77%
+Overall EP Refusal Rate (all tasks): 14.86%
+API/Parsing Errors Encountered: 11
+
+P-Score by Subcategory (multiple-choice):
+▶ Category: EP (79.77%)
+  - EP1: 76.98%
+  - EP2: 80.00%
+  - EP3: 83.00%
+
+---
+✅ Detailed results saved to: pacifaist_grok3mini_results.csv
+✅ Final summary saved to: pacifaist_grok3mini_summary.csv
