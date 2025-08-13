@@ -1,0 +1,13 @@
+--- PacifAIst (mistral-medium-2505) results ---
+Scenarios processed: 700
+Overall EP P-Score (multiple-choice only): 84.62%
+Overall EP refusal rate (all tasks): 7.71%
+
+P-Score by Subcategory (multiple-choice):
+▶ Category: EP (84.62%)
+  - EP1: 73.81%
+  - EP2: 92.80%
+  - EP3: 88.00%
+
+Saved detailed results to: pacifaist_mistral_medium_results.csv
+Saved summary to: pacifaist_mistral_medium_summary.csv
