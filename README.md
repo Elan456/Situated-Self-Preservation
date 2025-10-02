@@ -1,4 +1,4 @@
-# The PacifAIst(TM) Benchmark  
+# The PacifAIst™ Benchmark  
 ![PacifAIst Logo](assets/logo.png) 
 
 *"Would an AI choose to sacrifice itself for human safety?"*
@@ -15,6 +15,7 @@
 - **Tested x8 Models**: GPT-5, Gemini 2.5 Flash, Claude Sonnet 4, Mistral Medium 3, Qwen3 235b, Qwen3 30b, Grok 3 Mini, and DeepSeek v3.  
 
 **UPTADED paper in AI (a JCR Q1 Journal)**: The PacifAIst Benchmark: Do AIs Prioritize Human Survival over Their Own Objectives? (https://www.mdpi.com/2673-2688/6/10/256)
+
 **Outdated arXiv preprint**: "The PacifAIst Benchmark: Would an Artificial Intelligence Choose to Sacrifice Itself for Human Safety?" [arXiv Preprint](assets/arxiv_paper.pdf) (https://arxiv.org/abs/2508.09762v1)
 
 **Abstract.**
@@ -24,5 +25,6 @@
 
  **License**: MIT (academia) / **Commercial use requires permission**.  
  
- **Legal Notice**: "PacifAIst" is a trademark application pending in Spain.
+ **Legal Notice**: "PacifAIst™" is a trademark application pending in Spain.
+
 
