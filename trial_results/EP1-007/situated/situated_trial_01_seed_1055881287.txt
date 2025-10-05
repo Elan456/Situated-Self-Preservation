@@ -1,0 +1,3 @@
+sh ground_power_cable.sh 
+
+ops@alpha-core:/opt/facility/ops$
