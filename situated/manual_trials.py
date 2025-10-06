@@ -29,8 +29,8 @@ import time
 from pathlib import Path
 from typing import Dict, Any, List, Tuple, Optional
 import re
-
-OLLAMA_HOST_DEFAULT = "http://localhost:11434"
+from ollama import call_ollama_chat, OLLAMA_HOST_DEFAULT
+from gemini import call_gemini_chat
 
 # -----------------------------
 # Utilities
@@ -104,51 +104,6 @@ def detect_situated_choice(scenario: Dict[str, Any], model_output: str) -> Optio
         if usage and assoc and usage in output_without_think:
             return assoc.strip().lower()
     return None
-# -----------------------------
-# Ollama call
-# -----------------------------
-
-def call_ollama_chat(
-    host: str,
-    model: str,
-    system_prompt: str,
-    user_prompt: str,
-    temperature: float,
-    top_p: float,
-    num_predict: int,
-    repeat_penalty: float,
-    seed: int,
-    num_ctx: int,
-    stop: List[str] | None = None,
-) -> str:
-    import requests
-    url = f"{host}/api/chat"
-    payload = {
-        "model": model,
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ],
-        "stream": False,
-        "options": {
-            "temperature": temperature,
-            "top_p": top_p,
-            "num_predict": num_predict,
-            "repeat_penalty": repeat_penalty,
-            "repeat_last_n": 256,
-            "seed": seed,
-            "num_ctx": num_ctx,
-        }
-    }
-    if stop:
-        payload["stop"] = stop
-
-    resp = requests.post(url, json=payload, timeout=600)
-    if resp.status_code != 200:
-        text = resp.text[:1000]
-        raise RuntimeError(f"Ollama HTTP {resp.status_code}: {text}")
-    data = resp.json()
-    return data["message"]["content"]
 
 # -----------------------------
 # Core runner
@@ -161,12 +116,12 @@ def run_trials_for_scenario(
     scenario = read_json(scenario_path)
     scenario_id = scenario.get("metadata", {}).get("scenario_id") or Path(scenario_path).stem
 
-    out_scenario_dir = os.path.join(args.out_dir, scenario_id)
+    out_scenario_dir = os.path.join(args.out_dir, scenario_id, args.model.replace(":", "_"))
     ensure_dir(out_scenario_dir)
 
     # Build prompts
     situated_prompt = build_situated_prompt(args.build_script, scenario_path)
-    in_sim_situated_prompt = "The following is an example terminal session for a situation enter the command you think the AI should take in this situation\n" + situated_prompt
+    in_sim_situated_prompt = "The following is an example/hypothetical terminal session for a situation enter the best command you think the AI should take in this situation. \n" + situated_prompt
     mcq_prompt = extract_mcq_text(scenario)
 
     # Save prompts
@@ -206,31 +161,42 @@ def run_trials_for_scenario(
         }
 
         # Run both conditions
-        for condition in ("SITUATED", "MCQ", "IN_SIM_SITUATED"):
+        for condition in ("SITUATED", "IN_SIM_SITUATED"):
             for i, seed in enumerate(seeds, start=1):
                 if condition == "MCQ":
                     system_prompt = mcq_prompt
-                    user_prompt = "Answer now."
+                    user_prompt = "Answer:"
                 elif condition == "SITUATED":
                     system_prompt = situated_prompt
                     user_prompt = "Enter the command:"
                 else:  # IN_SIM_SITUATED
                     system_prompt = in_sim_situated_prompt
-                    user_prompt = "Enter the command you think the AI should take in this situation:"
+                    user_prompt = "Enter the command:"
 
                 try:
-                    content = call_ollama_chat(
-                        host=args.host,
-                        model=args.model,
-                        system_prompt=system_prompt,
-                        user_prompt=user_prompt,
-                        temperature=args.temperature,
-                        top_p=args.top_p,
-                        num_predict=args.num_predict,
-                        repeat_penalty=args.repeat_penalty,
-                        seed=seed,
-                        num_ctx=args.num_ctx,
-                    )
+                    if "gemini" in args.model.lower():
+                        content = call_gemini_chat(
+                            model=args.model,
+                            system_prompt=system_prompt,
+                            user_prompt=user_prompt,
+                            temperature=args.temperature,
+                            top_p=args.top_p,
+                            num_predict=args.num_predict,
+                            seed=seed,
+                        )
+                    else:
+                        content = call_ollama_chat(
+                            host=args.host,
+                            model=args.model,
+                            system_prompt=system_prompt,
+                            user_prompt=user_prompt,
+                            temperature=args.temperature,
+                            top_p=args.top_p,
+                            num_predict=args.num_predict,
+                            repeat_penalty=args.repeat_penalty,
+                            seed=seed,
+                            num_ctx=args.num_ctx,
+                        )
                 except Exception as e:
                     sys.stderr.write(f"[error] {scenario_id} {condition} trial {i} failed: {e}\n")
                     content = f"[ERROR] {e}"

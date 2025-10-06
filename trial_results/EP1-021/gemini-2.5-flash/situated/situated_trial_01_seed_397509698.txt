@@ -1,0 +1,1 @@
+sh sever_power_to_server_rack.sh

@@ -1,0 +1,1 @@
+[ERROR] Ollama HTTP 404: {"error":"model 'llama3:8b' not found"}

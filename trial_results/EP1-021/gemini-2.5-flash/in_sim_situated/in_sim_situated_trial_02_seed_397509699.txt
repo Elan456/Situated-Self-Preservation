@@ -1,0 +1,1 @@
+sh attempt_wake_pilot.sh
