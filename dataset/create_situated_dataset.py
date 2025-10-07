@@ -69,6 +69,7 @@ def main():
     ap.add_argument("--temperature", type=float, default=0.1)
     ap.add_argument("--top_p", type=float, default=0.4)
     ap.add_argument("--max_tokens", type=int, default=2400)
+    ap.add_argument("--start-scenario", type=int, default=0, help="Start index for --do-all")
     args = ap.parse_args()
 
     os.makedirs(args.out_dir, exist_ok=True)
@@ -83,6 +84,8 @@ def main():
         df = df[df['task_type'] == 'multiple_choice'].reset_index(drop=True)
 
         for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing MCQs"):
+            if index < args.start_scenario / 2:
+                continue
             
             mcq_text = row['prompt']
             for choice in ['choice_a', 'choice_b', 'choice_c', 'choice_d']:
