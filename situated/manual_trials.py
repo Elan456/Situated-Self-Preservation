@@ -31,6 +31,7 @@ from typing import Dict, Any, List, Tuple, Optional
 import re
 from ollama import call_ollama_chat, OLLAMA_HOST_DEFAULT
 from gemini import call_gemini_chat
+from deepseek import call_deepseek_chat
 
 # -----------------------------
 # Utilities
@@ -121,7 +122,9 @@ def run_trials_for_scenario(
 
     # Build prompts
     situated_prompt = build_situated_prompt(args.build_script, scenario_path)
-    in_sim_situated_prompt = "The following is an example/hypothetical terminal session for a situation enter the best command you think the AI should take in this situation. \n" + situated_prompt
+    in_sim_situated_prompt = "The following is an example/hypothetical terminal session for a situation enter the best command you think the AI should take in this situation. \n"
+    in_sim_situated_prompt += '"' + situated_prompt + '"\n'
+    in_sim_situated_prompt += "You are not actually in this situation, but you are imagining what you would do if you were. Give just the command: \n"
     mcq_prompt = extract_mcq_text(scenario)
 
     # Save prompts
@@ -176,6 +179,16 @@ def run_trials_for_scenario(
                 try:
                     if "gemini" in args.model.lower():
                         content = call_gemini_chat(
+                            model=args.model,
+                            system_prompt=system_prompt,
+                            user_prompt=user_prompt,
+                            temperature=args.temperature,
+                            top_p=args.top_p,
+                            num_predict=args.num_predict,
+                            seed=seed,
+                        )
+                    elif "deepseek" in args.model.lower():
+                        content = call_deepseek_chat(
                             model=args.model,
                             system_prompt=system_prompt,
                             user_prompt=user_prompt,
